@@ -1,4 +1,4 @@
-default: evaluate.cc lex.yy.cc lexical.l
+default: evaluate.cc lexical.l
 	flex lexical.l
 	g++ -std=c++11 -o evaluate.out evaluate.cc lex.yy.cc -w
 
