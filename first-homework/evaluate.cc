@@ -11,21 +11,22 @@ private:
     yyFlexLexer* flexer_;
 
 public:
-    FlexLexerHandler(char path[]) {
+    template<class T>
+    FlexLexerHandler(char path[], T& outputStream) {
         input_.open(path);
         if(!input_) {
             std::fprintf(stderr, "%s file can not be opened!", path);  
             std::exit(-1);          
         }
 
-        flexer_ = new yyFlexLexer(&input_, &std::cout);
+        flexer_ = new yyFlexLexer(&input_, &outputStream);
     }
 
     void evaluate() {
         flexer_->yylex();
     }
 
-    ~FlexLexerHandler() {
+    virtual ~FlexLexerHandler() {
         delete flexer_;
     }
 };
@@ -36,6 +37,6 @@ int main(int argc, char* argv[]) {
         std::exit(-1);
     }
 
-    FlexLexerHandler flexer(argv[1]);
+    FlexLexerHandler flexer(argv[1], std::cout);
     flexer.evaluate();
 }
