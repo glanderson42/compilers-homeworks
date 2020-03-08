@@ -11,7 +11,8 @@
 
 WS [ \t\n]
 COMMENT \*.*
-PROGRAM PROGRAM[ \t\n][a-zA-Z]+
+IDENTIFICATION [a-z][a-z,_,0-9]*
+PROGRAM PROGRAM
 TERMINAL \.
 READ READ
 MOVE MOVE
@@ -47,12 +48,16 @@ MOD MOD
 
 %%
 
-{COMMENT} {
+^{COMMENT} {
     std::cout << "Comment block" << std::endl;
 }
 
 {PROGRAM} {
-    std::cout << "Program declaration" << std::endl;
+    PRINT_MACRO("Keyword", yytext);
+}
+
+{IDENTIFICATION} {
+    PRINT_MACRO("Identification", yytext);
 }
 
 {READ} {
